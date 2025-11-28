@@ -8,25 +8,25 @@ Due to GitHub's file size limitations (100MB), large data files are hosted on Go
 - **reddit_all_subreddits_preprocessed_20250821_175216.json** (182 MB)
   - 40,745 preprocessed posts from 18 mental health subreddits
   - Fields: text_raw, text_light, text_ml_bow, quality_tier, quality_flags, category, subreddit, title, selftext, created_utc, score, num_comments, text_length
-  - Download: [Google Drive Link - To be added]
+  - Download: https://drive.google.com/file/d/1yoXyM4ltQzA3HE_K70Y44lK_rkJTBT1V/view?usp=share_link
 
 ### Emotion Predictions
 - **reddit_emotions_predicted_20251118_194626.json** (231 MB)
   - Mental-BERT emotion classification results
   - Fields: All preprocessed fields + emotion_probabilities (28 emotions), top_3_emotions, dominant_emotion, predicted_emotion_labels
-  - Download: [Google Drive Link - To be added]
+  - Download: https://drive.google.com/file/d/1Z9rrkcAUOg1lCu-qBhGTKNm7qQEJ_gPd/view?usp=share_link
 
 ### Circumplex Mapping
 - **reddit_with_circumplex_20251120_192036.json** (236 MB)
   - Russell's Circumplex Model (Valence × Arousal) mapping
   - Fields: All emotion prediction fields + valence, arousal, dominance, quadrant, intensity
-  - Download: [Google Drive Link - To be added]
+  - Download: https://drive.google.com/file/d/154tfTg0wxUsqgp7VSp1Q6YWqK6cjJJgA/view?usp=share_link
 
 ### Topic Modeling
 - **reddit_with_topics_20251121_230630.json** (211 MB)
   - BERTopic thematic clustering results
   - Fields: All circumplex fields + topic, topic_probability, representative_document
-  - Download: [Google Drive Link - To be added]
+  - Download: https://drive.google.com/file/d/14F2Sk9zKMCfCf1Dq--37tHRWG23y-1Tv/view?usp=share_link
 
 ## File Placement
 
@@ -63,7 +63,7 @@ df = pd.read_json('reddit_all_subreddits_preprocessed_20250821_175216.json')
 
 - **Total posts**: 40,745
 - **Subreddits**: 18 mental health communities
-- **Date range**: 2016-2023
+- **Date range**: 2024-2025
 - **Quality distribution**: Tier 1 (90.58%), Tier 2 (6.32%), Tier 3 (3.10%)
 - **Emotions classified**: 28 GoEmotions categories
 - **Topics discovered**: 19 thematic clusters
