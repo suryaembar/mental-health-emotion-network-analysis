@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": [0.7450980392156863, 0.7294117647058823, 0.8549019607843137], "font": {"color": "black"}, "id": "admiration", "label": "admiration", "shape": "dot", "size": 12.179277887765583, "title": "admiration\nStrength: 0.609\nCommunity: 1"}, {"color": [0.7450980392156863, 0.7294117647058823, 0.8549019607843137], "font": {"color": "black"}, "id": "amusement", "label": "amusement", "shape": "dot", "size": 5.831908890483216, "title": "amusement\nStrength: 0.292\nCommunity: 1"}, {"color": [0.5019607843137255, 0.6941176470588235, 0.8274509803921568], "font": {"color": "black"}, "id": "anger", "label": "anger", "shape": "dot", "size": 22.70399270498721, "title": "anger\nStrength: 1.135\nCommunity: 2"}, {"color": [0.5019607843137255, 0.6941176470588235, 0.8274509803921568], "font": {"color": "black"}, "id": "annoyance", "label": "annoyance", "shape": "dot", "size": 20.75455505424451, "title": "annoyance\nStrength: 1.038\nCommunity: 2"}, {"color": [0.7019607843137254, 0.8705882352941177, 0.4117647058823529], "font": {"color": "black"}, "id": "approval", "label": "approval", "shape": "dot", "size": 4.026161595365546, "title": "approval\nStrength: 0.201\nCommunity: 3"}, {"color": [0.8, 0.9215686274509803, 0.7725490196078432], "font": {"color": "black"}, "id": "caring", "label": "caring", "shape": "dot", "size": 12.72518064374902, "title": "caring\nStrength: 0.636\nCommunity: 5"}, {"color": [0.8, 0.9215686274509803, 0.7725490196078432], "font": {"color": "black"}, "id": "confusion", "label": "confusion", "shape": "dot", "size": 24.591849619571278, "title": "confusion\nStrength: 1.230\nCommunity: 5"}, {"color": [0.8, 0.9215686274509803, 0.7725490196078432], "font": {"color": "black"}, "id": "curiosity", "label": "curiosity", "shape": "dot", "size": 19.360526069634403, "title": "curiosity\nStrength: 0.968\nCommunity: 5"}, {"color": [0.8, 0.9215686274509803, 0.7725490196078432], "font": {"color": "black"}, "id": "desire", "label": "desire", "shape": "dot", "size": 16.113945370892438, "title": "desire\nStrength: 0.806\nCommunity: 5"}, {"color": [0.7019607843137254, 0.8705882352941177, 0.4117647058823529], "font": {"color": "black"}, "id": "disappointment", "label": "disappointment", "shape": "dot", "size": 22.646442310617463, "title": "disappointment\nStrength: 1.132\nCommunity: 3"}, {"color": [0.5019607843137255, 0.6941176470588235, 0.8274509803921568], "font": {"color": "black"}, "id": "disapproval", "label": "disapproval", "shape": "dot", "size": 9.888499127320319, "title": "disapproval\nStrength: 0.494\nCommunity: 2"}, {"color": [0.5019607843137255, 0.6941176470588235, 0.8274509803921568], "font": {"color": "black"}, "id": "disgust", "label": "disgust", "shape": "dot", "size": 25.45304082471928, "title": "disgust\nStrength: 1.273\nCommunity: 2"}, {"color": [0.5019607843137255, 0.6941176470588235, 0.8274509803921568], "font": {"color": "black"}, "id": "embarrassment", "label": "embarrassment", "shape": "dot", "size": 24.710300262842672, "title": "embarrassment\nStrength: 1.236\nCommunity: 2"}, {"color": [0.7450980392156863, 0.7294117647058823, 0.8549019607843137], "font": {"color": "black"}, "id": "excitement", "label": "excitement", "shape": "dot", "size": 10.907639573137157, "title": "excitement\nStrength: 0.545\nCommunity: 1"}, {"color": [0.5529411764705883, 0.8274509803921568, 0.7803921568627451], "font": {"color": "black"}, "id": "fear", "label": "fear", "shape": "dot", "size": 19.84458451817823, "title": "fear\nStrength: 0.992\nCommunity: 0"}, {"color": [0.7450980392156863, 0.7294117647058823, 0.8549019607843137], "font": {"color": "black"}, "id": "gratitude", "label": "gratitude", "shape": "dot", "size": 3.1182229838919757, "title": "gratitude\nStrength: 0.156\nCommunity: 1"}, {"color": [0.7019607843137254, 0.8705882352941177, 0.4117647058823529], "font": {"color": "black"}, "id": "grief", "label": "grief", "shape": "dot", "size": 21.16788725729995, "title": "grief\nStrength: 1.058\nCommunity: 3"}, {"color": [0.7450980392156863, 0.7294117647058823, 0.8549019607843137], "font": {"color": "black"}, "id": "joy", "label": "joy", "shape": "dot", "size": 28.123073787722852, "title": "joy\nStrength: 1.406\nCommunity: 1"}, {"color": [0.7450980392156863, 0.7294117647058823, 0.8549019607843137], "font": {"color": "black"}, "id": "love", "label": "love", "shape": "dot", "size": 7.361233315716477, "title": "love\nStrength: 0.368\nCommunity: 1"}, {"color": [0.5529411764705883, 0.8274509803921568, 0.7803921568627451], "font": {"color": "black"}, "id": "nervousness", "label": "nervousness", "shape": "dot", "size": 32.715116395741816, "title": "nervousness\nStrength: 1.636\nCommunity: 0"}, {"color": [0.8, 0.9215686274509803, 0.7725490196078432], "font": {"color": "black"}, "id": "optimism", "label": "optimism", "shape": "dot", "size": 13.567985159839262, "title": "optimism\nStrength: 0.678\nCommunity: 5"}, {"color": [0.7450980392156863, 0.7294117647058823, 0.8549019607843137], "font": {"color": "black"}, "id": "pride", "label": "pride", "shape": "dot", "size": 11.692201523277607, "title": "pride\nStrength: 0.585\nCommunity: 1"}, {"color": [0.5019607843137255, 0.6941176470588235, 0.8274509803921568], "font": {"color": "black"}, "id": "realization", "label": "realization", "shape": "dot", "size": 7.446412493402884, "title": "realization\nStrength: 0.372\nCommunity: 2"}, {"color": [0.7450980392156863, 0.7294117647058823, 0.8549019607843137], "font": {"color": "black"}, "id": "relief", "label": "relief", "shape": "dot", "size": 26.831168857618465, "title": "relief\nStrength: 1.342\nCommunity: 1"}, {"color": [0.7019607843137254, 0.8705882352941177, 0.4117647058823529], "font": {"color": "black"}, "id": "remorse", "label": "remorse", "shape": "dot", "size": 14.069900721940618, "title": "remorse\nStrength: 0.703\nCommunity: 3"}, {"color": [0.7019607843137254, 0.8705882352941177, 0.4117647058823529], "font": {"color": "black"}, "id": "sadness", "label": "sadness", "shape": "dot", "size": 34.29017529021967, "title": "sadness\nStrength: 1.715\nCommunity: 3"}, {"color": [0.8, 0.9215686274509803, 0.7725490196078432], "font": {"color": "black"}, "id": "surprise", "label": "surprise", "shape": "dot", "size": 8.572717130379264, "title": "surprise\nStrength: 0.429\nCommunity: 5"}, {"color": [0.8509803921568627, 0.8509803921568627, 0.8509803921568627], "font": {"color": "black"}, "id": "neutral", "label": "neutral", "shape": "dot", "size": 0, "title": "neutral\nStrength: 0.000\nCommunity: 4"}]);
+                  edges = new vis.DataSet([{"from": "admiration", "title": "Partial correlation: 0.074", "to": "embarrassment", "value": 0.7374408913348358}, {"from": "admiration", "title": "Partial correlation: 0.161", "to": "joy", "value": 1.6130808800711096}, {"from": "admiration", "title": "Partial correlation: 0.079", "to": "love", "value": 0.7859697539904695}, {"from": "admiration", "title": "Partial correlation: 0.144", "to": "nervousness", "value": 1.4448671445233812}, {"from": "admiration", "title": "Partial correlation: 0.151", "to": "pride", "value": 1.5082802739629944}, {"from": "amusement", "title": "Partial correlation: 0.064", "to": "grief", "value": 0.6445611940597844}, {"from": "amusement", "title": "Partial correlation: 0.227", "to": "joy", "value": 2.271393251181824}, {"from": "anger", "title": "Partial correlation: 0.444", "to": "annoyance", "value": 4.444976439928159}, {"from": "anger", "title": "Partial correlation: 0.415", "to": "disgust", "value": 4.147358432599365}, {"from": "anger", "title": "Partial correlation: 0.074", "to": "grief", "value": 0.7361237492552463}, {"from": "anger", "title": "Partial correlation: 0.144", "to": "realization", "value": 1.4386254174370772}, {"from": "anger", "title": "Partial correlation: 0.058", "to": "relief", "value": 0.5849123132737568}, {"from": "annoyance", "title": "Partial correlation: 0.138", "to": "disappointment", "value": 1.376058887982269}, {"from": "annoyance", "title": "Partial correlation: 0.158", "to": "disapproval", "value": 1.5756950819426847}, {"from": "annoyance", "title": "Partial correlation: 0.169", "to": "disgust", "value": 1.6926181374916685}, {"from": "annoyance", "title": "Partial correlation: 0.071", "to": "embarrassment", "value": 0.7141647205189728}, {"from": "annoyance", "title": "Partial correlation: 0.057", "to": "relief", "value": 0.5737642592584997}, {"from": "approval", "title": "Partial correlation: 0.052", "to": "nervousness", "value": 0.5201908085855236}, {"from": "approval", "title": "Partial correlation: 0.065", "to": "relief", "value": 0.6508131136206627}, {"from": "approval", "title": "Partial correlation: 0.084", "to": "sadness", "value": 0.8420768754765866}, {"from": "caring", "title": "Partial correlation: 0.100", "to": "disgust", "value": 1.0036211739940226}, {"from": "caring", "title": "Partial correlation: 0.067", "to": "grief", "value": 0.6707411722162505}, {"from": "caring", "title": "Partial correlation: 0.073", "to": "nervousness", "value": 0.726204940460819}, {"from": "caring", "title": "Partial correlation: 0.146", "to": "optimism", "value": 1.4633758370568382}, {"from": "caring", "title": "Partial correlation: 0.189", "to": "relief", "value": 1.8928611945475629}, {"from": "caring", "title": "Partial correlation: 0.061", "to": "surprise", "value": 0.605786003599018}, {"from": "confusion", "title": "Partial correlation: 0.587", "to": "curiosity", "value": 5.868534442460817}, {"from": "confusion", "title": "Partial correlation: 0.102", "to": "desire", "value": 1.0216713979148913}, {"from": "confusion", "title": "Partial correlation: 0.069", "to": "grief", "value": 0.6949794354119105}, {"from": "confusion", "title": "Partial correlation: 0.050", "to": "joy", "value": 0.5017587661812575}, {"from": "confusion", "title": "Partial correlation: 0.096", "to": "nervousness", "value": 0.9582177711835946}, {"from": "confusion", "title": "Partial correlation: 0.145", "to": "pride", "value": 1.4547047853674646}, {"from": "confusion", "title": "Partial correlation: 0.099", "to": "relief", "value": 0.9904535935865504}, {"from": "confusion", "title": "Partial correlation: 0.081", "to": "surprise", "value": 0.8056046176791514}, {"from": "curiosity", "title": "Partial correlation: 0.140", "to": "disappointment", "value": 1.3971338697906777}, {"from": "curiosity", "title": "Partial correlation: 0.123", "to": "relief", "value": 1.2269622786069747}, {"from": "curiosity", "title": "Partial correlation: 0.119", "to": "surprise", "value": 1.1876324439587322}, {"from": "desire", "title": "Partial correlation: 0.127", "to": "embarrassment", "value": 1.2744945561994627}, {"from": "desire", "title": "Partial correlation: 0.109", "to": "love", "value": 1.0871776454125806}, {"from": "desire", "title": "Partial correlation: 0.383", "to": "optimism", "value": 3.8281657633734185}, {"from": "desire", "title": "Partial correlation: 0.085", "to": "surprise", "value": 0.8454633225458664}, {"from": "disappointment", "title": "Partial correlation: 0.217", "to": "disapproval", "value": 2.1681047103489335}, {"from": "disappointment", "title": "Partial correlation: 0.067", "to": "embarrassment", "value": 0.6681502764853968}, {"from": "disappointment", "title": "Partial correlation: 0.076", "to": "nervousness", "value": 0.7649234957243413}, {"from": "disappointment", "title": "Partial correlation: 0.495", "to": "sadness", "value": 4.948849914977114}, {"from": "disapproval", "title": "Partial correlation: 0.120", "to": "disgust", "value": 1.2004497713685411}, {"from": "disgust", "title": "Partial correlation: 0.301", "to": "embarrassment", "value": 3.0058582627529757}, {"from": "disgust", "title": "Partial correlation: 0.078", "to": "fear", "value": 0.782927995704862}, {"from": "disgust", "title": "Partial correlation: 0.089", "to": "optimism", "value": 0.8936866384482058}, {"from": "embarrassment", "title": "Partial correlation: 0.111", "to": "grief", "value": 1.1133047651702872}, {"from": "embarrassment", "title": "Partial correlation: 0.172", "to": "realization", "value": 1.7165164663363106}, {"from": "embarrassment", "title": "Partial correlation: 0.313", "to": "remorse", "value": 3.125220192623093}, {"from": "excitement", "title": "Partial correlation: 0.400", "to": "joy", "value": 3.9990453735706257}, {"from": "excitement", "title": "Partial correlation: 0.061", "to": "sadness", "value": 0.612902235591089}, {"from": "excitement", "title": "Partial correlation: 0.084", "to": "surprise", "value": 0.8418721774068638}, {"from": "fear", "title": "Partial correlation: 0.068", "to": "grief", "value": 0.6809104845741814}, {"from": "fear", "title": "Partial correlation: 0.754", "to": "nervousness", "value": 7.536088681528224}, {"from": "fear", "title": "Partial correlation: 0.092", "to": "sadness", "value": 0.9223650972818463}, {"from": "gratitude", "title": "Partial correlation: 0.156", "to": "relief", "value": 1.5591114919459879}, {"from": "grief", "title": "Partial correlation: 0.092", "to": "remorse", "value": 0.9184513628206047}, {"from": "grief", "title": "Partial correlation: 0.512", "to": "sadness", "value": 5.124871465141709}, {"from": "joy", "title": "Partial correlation: 0.181", "to": "love", "value": 1.8074692584551888}, {"from": "joy", "title": "Partial correlation: 0.086", "to": "pride", "value": 0.8637995077128535}, {"from": "joy", "title": "Partial correlation: 0.300", "to": "relief", "value": 3.0049898566885695}, {"from": "nervousness", "title": "Partial correlation: 0.091", "to": "pride", "value": 0.9113109750890416}, {"from": "nervousness", "title": "Partial correlation: 0.057", "to": "realization", "value": 0.5680643629280541}, {"from": "nervousness", "title": "Partial correlation: 0.122", "to": "relief", "value": 1.2249467667330485}, {"from": "nervousness", "title": "Partial correlation: 0.170", "to": "sadness", "value": 1.7027432511148795}, {"from": "optimism", "title": "Partial correlation: 0.060", "to": "relief", "value": 0.5987643410411687}, {"from": "pride", "title": "Partial correlation: 0.111", "to": "relief", "value": 1.1080052195064496}, {"from": "remorse", "title": "Partial correlation: 0.299", "to": "sadness", "value": 2.9912788055266115}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"forceAtlas2Based": {"gravitationalConstant": -50, "centralGravity": 0.01, "springLength": 100, "springConstant": 0.08}, "maxVelocity": 50, "solver": "forceAtlas2Based"}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
